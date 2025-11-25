@@ -5,7 +5,6 @@ playwright-report/
 screenshots/
 .env
 .env.local
-package-lock.json
 allure-results/
 allure-report/
 .DS_Store
