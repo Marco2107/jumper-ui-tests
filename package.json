@@ -8,6 +8,7 @@
     "test:debug": "playwright test --debug",
     "test:ui": "playwright test --ui",
     "test:report": "playwright show-report",
+    "allure": "playwright test && allure generate allure-results --clean && allure open",
     "test:codegen": "playwright codegen https://jumper.exchange",
     "lint": "eslint src tests --ext .ts",
     "lint:fix": "eslint src tests --ext .ts --fix",
@@ -30,6 +31,7 @@
   "devDependencies": {
     "@playwright/test": "^1.56.1",
     "@types/node": "^24.10.1",
+    "allure-playwright": "^3.4.2",
     "typescript": "^5.9.3"
   }
 }

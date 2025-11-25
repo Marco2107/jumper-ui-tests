@@ -13,7 +13,7 @@ export default defineConfig({
     timeout: 10 * 1000,
   },
 
-  reporter: [['html'], ['list']],
+  reporter: [['html'], ['list'], ['allure-playwright']],
   
   use: {
     baseURL: process.env.BASE_URL || 'https://jumper.exchange',
