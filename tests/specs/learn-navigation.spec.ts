@@ -3,7 +3,7 @@ import { ExchangePage } from '../../src/pages/ExchangePage';
 import { LearnPage } from '../../src/pages/LearnPage';
 
 test.describe('Learn Page Navigation', () => {
-  //A new comment
+
   test('User navigates through the learn page', async ({ page }) => {
     const exchangePage = new ExchangePage(page);
     const learnPage = new LearnPage(page);
