@@ -7,14 +7,23 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
   
+  timeout: 30 * 1000,
+  
+  expect: {
+    timeout: 10 * 1000,
+  },
+
   reporter: [['html'], ['list']],
   
   use: {
     baseURL: process.env.BASE_URL || 'https://jumper.exchange',
     viewport: { width: 1280, height: 720 },
-    actionTimeout: 15000,
-    navigationTimeout: 30000,
-    trace: 'on-first-retry',
+    
+    actionTimeout: 15 * 1000,
+    navigationTimeout: 30 * 1000,
+    
+    trace: 'retain-on-failure',
+    screenshot: 'only-on-failure',
   },
 
   outputDir: 'test-results',
@@ -25,15 +34,4 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'] },
     },
   ],
-
-  testMatch: [
-    'tests/**/*.spec.ts',
-    'tests/**/*.test.ts'
-  ],
-
-  timeout: 30000,
-  
-  expect: {
-    timeout: 10000,
-  },
 });
