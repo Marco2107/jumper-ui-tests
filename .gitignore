@@ -6,6 +6,5 @@ screenshots/
 .env
 .env.local
 package-lock.json
-claude.md
 allure-results/
 allure-report/
