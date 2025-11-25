@@ -8,9 +8,8 @@ test.describe('Global Navigation & UI', () => {
     const exchangePage = new ExchangePage(page);
     const missionsPage = new MissionsPage(page);
 
-    await test.step('Given I access the Exchange platform', async () => {
+    await test.step('Given I access the Exchange page', async () => {
       await exchangePage.goto();
-      await exchangePage.clickGetStarted();
     });
 
     await test.step('When I explore the Gas trading widget', async () => {

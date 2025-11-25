@@ -8,7 +8,6 @@ test.describe('Token & Chain Selection', () => {
 
     await test.step('Given the user is on the Exchange page', async () => {
       await exchangePage.goto();
-      await exchangePage.clickGetStarted();
     });
 
     await test.step('When the user selects ETH on Ethereum as source token', async () => {

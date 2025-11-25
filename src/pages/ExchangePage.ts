@@ -39,7 +39,11 @@ export class ExchangePage {
 
   async goto(): Promise<void> {
     await this.page.goto('/');
-    await this.page.waitForLoadState('networkidle');
+
+    await this.getStartedButton.click();
+
+    await expect(this.page).toHaveTitle(/Jumper/i);
+    await expect(this.connectWalletButton).toBeVisible()
   }
 
   async clickConnectButton(): Promise<void> {
@@ -71,9 +75,6 @@ export class ExchangePage {
     await tab.click();
   }
 
-  async clickGetStarted(): Promise<void> {
-    await this.getStartedButton.click()
-  }
 
   async expectWidgetIsVisible(widgetName: string): Promise<void> {
     const widgetTitle = this.widgetBanner.filter({ hasText: new RegExp(`^${widgetName}$`) });
