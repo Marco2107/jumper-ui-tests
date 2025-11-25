@@ -15,6 +15,8 @@ export class ExchangePage {
   private readonly sendDifferentWalletButton: Locator;
   private readonly connectWalletButton: Locator;
   private readonly settingsButton: Locator;
+  private readonly networkSearchBox: Locator;
+  private readonly tokenSearchBox: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -30,7 +32,9 @@ export class ExchangePage {
     this.selectChainSelector = page.getByRole('button', { name: 'To Select chain' });
     this.sendDifferentWalletButton = page.getByRole('button', { name: 'Send to a different wallet' });
     this.connectWalletButton = page.getByRole('button', { name: 'Connect wallet' });
-    this.settingsButton = page.getByRole('button', { name: 'Settings' })
+    this.settingsButton = page.getByRole('button', { name: 'Settings' });
+    this.networkSearchBox = this.page.getByRole('textbox', { name: 'Search network' });
+    this.tokenSearchBox = this.page.getByRole('textbox', { name: 'Search by token or address' });
   }
 
   async goto(): Promise<void> {
@@ -90,6 +94,42 @@ export class ExchangePage {
     await expect(this.settingsButton).toBeVisible();
     await expect(this.connectWalletButton).toBeVisible();
     await expect(this.sendDifferentWalletButton).toBeVisible();
+  }
+
+  private getChainSelector(chain: string): Locator {
+    return this.page.getByRole('button', { name: `${chain} ${chain} pin` });
+  }
+
+  private getTokenSelector(token: string): Locator {
+    return this.page.getByRole('button', { name: `${token} ${token} ${token}` });
+  }
+
+  async selectSourceToken(chain: string, token: string): Promise<void> {
+    await this.fromTokenSelector.click();
+    
+    await this.networkSearchBox.fill(chain);
+    await this.getChainSelector(chain).click();
+    
+    await this.tokenSearchBox.fill(token);
+    await this.getTokenSelector(token).click();
+  }
+
+  async selectDestinationToken(chain: string, token: string): Promise<void> {
+    await this.destinationTokenSelector.click();
+    
+    await this.networkSearchBox.fill(chain);
+    await this.getChainSelector(chain).click();
+    
+    await this.tokenSearchBox.fill(token);
+    await this.getTokenSelector(token).click();
+  }
+
+  async expectSelectedSwapConfiguration(sourceToken: string, sourceChain: string, destToken: string, destChain: string): Promise<void> {
+    const sourceSelector = this.page.getByRole('button', { name: `From ${sourceToken} ${sourceChain} ${sourceToken} ${sourceChain}` });
+    await expect(sourceSelector).toBeVisible();
+    
+    const destSelector = this.page.getByRole('button', { name: `To ${destToken} ${destChain} ${destToken} ${destChain}` });
+    await expect(destSelector).toBeVisible();
   }
 
 
