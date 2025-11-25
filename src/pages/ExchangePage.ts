@@ -3,10 +3,14 @@ import { Page, Locator } from '@playwright/test';
 export class ExchangePage {
   private readonly page: Page;
   private readonly connectButton: Locator;
+  private readonly mainMenuButton: Locator;
+  private readonly learnLink: Locator;
 
   constructor(page: Page) {
     this.page = page;
     this.connectButton = this.page.getByRole('button', { name: 'Connect', exact: true });
+    this.mainMenuButton = this.page.getByRole('button', { name: 'Main Menu' });
+    this.learnLink = this.page.getByRole('link', { name: 'Learn' });
   }
 
   async goto(): Promise<void> {
@@ -24,5 +28,13 @@ export class ExchangePage {
       name: `wallet-avatar chain-avatar ${truncatedAddress}` 
     });
     await connectedWalletButton.click();
+  }
+
+  async openMainMenu(): Promise<void> {
+    await this.mainMenuButton.click();
+  }
+
+  async navigateToLearnPage(): Promise<void> {
+    await this.learnLink.click();
   }
 }
