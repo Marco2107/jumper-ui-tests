@@ -1,13 +1,25 @@
-name: Playwright Tests
-on: [pull_request]
+name: PR Checks and Manual Report
+
+on:
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
-  test:
-    name: Run Playwright Tests
+  build-and-test:
+    name: Build, Test & Deploy
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 18
 
@@ -17,5 +29,30 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
-      - name: Run Playwright tests
+      - name: Run PR validation tests
+        if: github.event_name == 'pull_request'
         run: npx playwright test tests/specs/token-selection.spec.ts tests/specs/user-navigation.spec.ts tests/specs/wallet-connection.spec.ts
+
+      - name: Run all tests for manual report
+        if: github.event_name == 'workflow_dispatch'
+        run: npx playwright test
+        continue-on-error: true
+
+      - name: Generate Allure report
+        if: github.event_name == 'workflow_dispatch'
+        run: npx allure generate allure-results -o allure-report --clean
+
+      - name: Setup GitHub Pages
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/configure-pages@v4
+
+      - name: Upload Allure report artifact
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'allure-report'
+
+      - name: Deploy to GitHub Pages
+        if: github.event_name == 'workflow_dispatch'
+        id: deployment
+        uses: actions/deploy-pages@v4
