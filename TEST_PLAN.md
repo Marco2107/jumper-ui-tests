@@ -22,7 +22,6 @@ The following items are explicitly excluded:
 
 - **On-Chain Execution:** No real assets are moved
 - **Deep API Logic:** Routing algorithms and price accuracy are covered by the *API Test Plan*.
-</aside>
 
 ---
 
@@ -136,11 +135,11 @@ The following scenarios are designated as Smoke Tests for PR validation to ensur
 - **Scenario 3:** Navigation
 - **Scenario 4:** Token Configuration (Business Logic)
 
-### 5. Test suite report
+## 5. Test suite report
 
 ### full report available : [**Test suite report**](https://marco2107.github.io/jumper-ui-tests/)
 
-### 6. Issue
+## 6. Issue
 
 **[Bug] Discord Support hangs on loading state**
 https://github.com/Marco2107/jumper-ui-tests/issues/3
